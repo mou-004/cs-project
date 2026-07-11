@@ -1,75 +1,30 @@
-# Sentinel Bank Professional Secure Build
+# Sentinel Bank — Fast Verified Customer Email Build
 
-This build redesigns the interface and fixes the responsive navigation, mobile dashboard sidebar, card overlap, and locked-data visibility.
+Customer authentication uses Firebase Identity Toolkit REST directly. The three large Firebase browser SDK files were removed, so the page loads and responds faster.
 
-## Included files
+## Customer registration
 
-- `index.html`
-- `styles.css`
-- `app.js`
-- `ciphers.js`
-- `firebase-config.js`
-- `FIREBASE-SETUP.txt`
-- `README.md`
-- `TESTED.md`
+1. Enter a real inbox email and password.
+2. Firebase creates a pending account.
+3. Firebase sends a verification link.
+4. Open the link in that inbox.
+5. Return to the site and sign in.
 
-## Staff accounts
+The Customer Dashboard is blocked until Firebase returns `emailVerified: true`.
 
-Administrator:
+## Customer login
 
-```text
-admin@sentinelbank.mil
-Admin@123
-```
+- No local Customer login fallback
+- No Customer password stored in browser storage
+- Unverified Firebase accounts cannot enter
+- Resend Verification Email is included
+- Each Firebase request has a 10-second timeout instead of waiting indefinitely
 
-Employee:
+## Firebase Console
 
-```text
-employee@sentinelbank.mil
-Employee@123
-```
+Enable **Authentication → Sign-in method → Email/Password** for project `csproject-24094`.
 
-The Administrator must create and lock the Employee Access Vault before Employee Dashboard access works.
-
-## Customer safety workflow
-
-Each customer has three independent safety profiles:
-
-- Deposit Safety
-- Withdrawal Safety
-- Transfer Safety
-
-Before locking, the customer can see:
-
-- Authorization text
-- Selected algorithm
-- Ciphertext preview
-
-After locking, all of those details disappear. Only a private-key input remains. The correct key is required to unlock the profile for editing or execute the banking operation.
-
-After a successful operation, the decrypted authorization text and the balance calculation are displayed.
-
-## Employee access workflow
-
-The Administrator creates the Employee vault using private text, one algorithm, and a private key. The vault is then locked and its details disappear.
-
-The Employee login page does not show:
-
-- Authorization text
-- Algorithm name
-- Ciphertext
-- Any key clue
-
-The Employee enters only the private vault key. Three incorrect attempts block access until the Administrator resets the vault.
-
-## Responsive interface
-
-- Working public hamburger navigation
-- Working mobile dashboard sidebar
-- Responsive cards with no overlap
-- Scrollable tables
-- Professional dark/light appearance
-- Mobile layouts for forms and balance calculations
+Add `localhost` and the deployed domain under **Authentication → Settings → Authorized domains**.
 
 ## Run
 
@@ -79,8 +34,10 @@ Use VS Code Live Server or:
 python -m http.server 5500
 ```
 
-Then open:
+Open `http://localhost:5500`.
 
-```text
-http://localhost:5500
-```
+## Staff accounts
+
+Administrator: `admin@sentinelbank.mil` / `Admin@123`
+
+Employee: `employee@sentinelbank.mil` / `Employee@123`

@@ -1,27 +1,17 @@
-FIREBASE SETUP
+FAST FIREBASE EMAIL VERIFICATION SETUP
 
-Project configuration is already included in firebase-config.js.
+Project: csproject-24094
 
-1. Open Firebase Console.
-2. Open project: csproject-24094
-3. Go to Authentication > Sign-in method.
-4. Enable Email/Password.
-5. Go to Authentication > Settings > Authorized domains.
-6. Add localhost if it is not already listed.
-7. Create a Firestore Database if you want customer profile documents.
+1. Firebase Console > Authentication > Sign-in method.
+2. Enable Email/Password.
+3. Authentication > Templates > Email address verification.
+4. Configure the verification email template.
+5. Authentication > Settings > Authorized domains.
+6. Add localhost and your deployed domain.
+7. Run using VS Code Live Server or python -m http.server 5500.
 
-DEVELOPMENT FIRESTORE RULES
+This build uses Firebase Identity Toolkit REST directly.
+It does not download firebase-app, firebase-auth, or firebase-firestore SDK files.
 
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow create, read, update: if request.auth != null
-                                  && request.auth.uid == userId;
-      allow delete: if false;
-    }
-  }
-}
-
-Customer banking balances and operation history are stored in browser localStorage
-for this front-end academic demonstration.
+Customer login requires emailVerified=true.
+No local Customer login fallback is available.

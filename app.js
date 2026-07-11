@@ -97,6 +97,15 @@
     element.innerHTML = `<strong>${escapeHtml(heading)}</strong><p>${escapeHtml(detail)}</p>`;
   }
 
+  function withTimeout(promise, milliseconds, message) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        setTimeout(() => reject(new Error(message)), milliseconds);
+      })
+    ]);
+  }
+
   function customerList() {
     return read(STORAGE.customers, []);
   }
@@ -164,6 +173,7 @@
       button.classList.toggle("active", button.dataset.role === role);
     });
     $("#customerRegister").classList.toggle("hidden", role !== "customer");
+    $("#customerVerificationActions").classList.toggle("hidden", role !== "customer");
     setMessage($("#loginMsg"), "");
     setMessage($("#registerMsg"), "");
   }
@@ -261,6 +271,7 @@
 
     const email = normalize($("#loginEmail").value);
     const password = $("#loginPass").value;
+    const submitButton = event.submitter || event.target.querySelector('button[type="submit"]');
 
     if (selectedRole === "admin") {
       if (email === ADMIN.email && password === ADMIN.password) {
@@ -280,45 +291,65 @@
       return;
     }
 
-    let firebaseError = "";
-
-    if (window.FirebaseCustomerAuth?.available()) {
-      try {
-        const customer = await window.FirebaseCustomerAuth.loginCustomer(email, password);
-        const localCustomers = customerList();
-
-        if (!localCustomers.some(item => normalize(item.email) === email)) {
-          localCustomers.push({
-            name: customer.name,
-            email: customer.email,
-            passwordHash: hashText(password)
-          });
-          write(STORAGE.customers, localCustomers);
-        }
-
-        ensureAccount(customer.email, customer.name);
-        showDashboard(customer, "customer");
-        return;
-      } catch (error) {
-        firebaseError = window.FirebaseCustomerAuth.errorMessage(error);
-      }
-    }
-
-    const localCustomer = customerList().find(item =>
-      normalize(item.email) === email &&
-      item.passwordHash === hashText(password)
-    );
-
-    if (localCustomer) {
-      showDashboard({ name: localCustomer.name, email: localCustomer.email }, "customer");
+    if (!window.FirebaseCustomerAuth?.available()) {
+      setMessage(
+        $("#loginMsg"),
+        "Firebase is required for Customer login. Check the internet connection and Firebase configuration.",
+        "error"
+      );
       return;
     }
 
-    setMessage($("#loginMsg"), firebaseError || "Customer login failed. Register first.", "error");
+    if (!email || !password) {
+      setMessage($("#loginMsg"), "Enter the verified Customer email and password.", "error");
+      return;
+    }
+
+    try {
+      submitButton.disabled = true;
+      setMessage($("#loginMsg"), "Checking verified Firebase Customer account…");
+
+      const customer = await window.FirebaseCustomerAuth.loginCustomer(email, password);
+
+      if (!customer.emailVerified) {
+        throw new Error("Firebase did not confirm this email.");
+      }
+
+      const verifiedCustomers = customerList();
+      const existing = verifiedCustomers.find(item => normalize(item.email) === email);
+
+      if (existing) {
+        existing.name = customer.name;
+        existing.uid = customer.uid;
+        existing.emailVerified = true;
+        delete existing.passwordHash;
+      } else {
+        verifiedCustomers.push({
+          uid: customer.uid,
+          name: customer.name,
+          email: customer.email,
+          emailVerified: true
+        });
+      }
+
+      write(STORAGE.customers, verifiedCustomers);
+      ensureAccount(customer.email, customer.name);
+      showDashboard(customer, "customer");
+    } catch (error) {
+      setMessage(
+        $("#loginMsg"),
+        window.FirebaseCustomerAuth.errorMessage?.(error) || error.message || "Customer login failed.",
+        "error"
+      );
+    } finally {
+      submitButton.disabled = false;
+    }
   }
 
   async function register(event) {
     event.preventDefault();
+
+    const submitButton = event.submitter || event.target.querySelector('button[type="submit"]');
 
     try {
       const name = $("#regName").value.trim();
@@ -329,40 +360,86 @@
         throw new Error("Enter a name, valid email, and a password of at least 6 characters.");
       }
 
-      let firebaseNote = "";
-      if (window.FirebaseCustomerAuth?.available()) {
-        try {
-          await window.FirebaseCustomerAuth.registerCustomer(name, email, password);
-          firebaseNote = " Firebase account created.";
-        } catch (error) {
-          firebaseNote = ` ${window.FirebaseCustomerAuth.errorMessage(error)}`;
-        }
-      } else {
-        firebaseNote = " Local fallback account created.";
+      if (!window.FirebaseCustomerAuth?.available()) {
+        throw new Error(
+          "Firebase is required. Customer registration is disabled while Firebase is unavailable."
+        );
       }
 
-      const localCustomers = customerList();
-      const existing = localCustomers.find(item => normalize(item.email) === email);
+      submitButton.disabled = true;
+      setMessage($("#registerMsg"), "Creating a pending account and sending the verification email…");
 
-      if (existing) {
-        existing.name = name;
-        existing.passwordHash = hashText(password);
-      } else {
-        localCustomers.push({ name, email, passwordHash: hashText(password) });
-      }
+      await window.FirebaseCustomerAuth.registerCustomer(name, email, password);
 
-      write(STORAGE.customers, localCustomers);
-      ensureAccount(email, name);
       $("#loginEmail").value = email;
+      $("#loginPass").value = "";
       event.target.reset();
 
       setMessage(
         $("#registerMsg"),
-        `Customer registration saved.${firebaseNote} You can now sign in.`,
+        "Verification email sent. Open the link in that inbox, then return and sign in. The account is not active yet.",
+        "success"
+      );
+      setMessage(
+        $("#loginMsg"),
+        "Customer login will be accepted only after Firebase confirms the email verification.",
+        ""
+      );
+    } catch (error) {
+      setMessage(
+        $("#registerMsg"),
+        window.FirebaseCustomerAuth.errorMessage?.(error) || error.message,
+        "error"
+      );
+    } finally {
+      submitButton.disabled = false;
+    }
+  }
+
+  async function resendCustomerVerification() {
+    const button = $("#resendVerificationBtn");
+    const email = normalize($("#loginEmail").value);
+    const password = $("#loginPass").value;
+
+    if (!window.FirebaseCustomerAuth?.available()) {
+      setMessage(
+        $("#loginMsg"),
+        "Firebase is required to resend a verification email.",
+        "error"
+      );
+      return;
+    }
+
+    if (!email || !password) {
+      setMessage(
+        $("#loginMsg"),
+        "Enter the Customer email and password above before resending verification.",
+        "error"
+      );
+      return;
+    }
+
+    try {
+      button.disabled = true;
+      setMessage($("#loginMsg"), "Requesting a new verification email…");
+
+      const result = await window.FirebaseCustomerAuth.resendVerification(email, password);
+
+      setMessage(
+        $("#loginMsg"),
+        result.alreadyVerified
+          ? "This email is already verified. You can sign in now."
+          : "A new verification email was sent. Open the link before signing in.",
         "success"
       );
     } catch (error) {
-      setMessage($("#registerMsg"), error.message, "error");
+      setMessage(
+        $("#loginMsg"),
+        window.FirebaseCustomerAuth.errorMessage?.(error) || error.message,
+        "error"
+      );
+    } finally {
+      button.disabled = false;
     }
   }
 
@@ -518,14 +595,14 @@
     }
   }
 
-  function renderCustomer() {
+  function renderCustomer({ preserveOperationResult = false } = {}) {
     const account = ensureAccount(currentUser.email, currentUser.name);
     $("#custName").textContent = account.name.toUpperCase();
     $("#custAccount").textContent = account.number;
     $("#custBalance").textContent = money(account.balance);
 
     OPERATIONS.forEach(renderProfile);
-    renderExecutionProfile();
+    if (!preserveOperationResult) renderExecutionProfile();
 
     const rows = getOperations()
       .filter(operation => normalize(operation.customerEmail) === normalize(currentUser.email));
@@ -683,9 +760,7 @@
       $("#execSecret").value = "";
       $("#opAmount").value = "";
       $("#recipient").value = "";
-      renderCustomer();
-      $("#decryptedOut").textContent = decrypted;
-      $("#decryptionResultBox").classList.remove("hidden");
+      renderCustomer({ preserveOperationResult: true });
     } catch (error) {
       setState($("#operationState"), "OPERATION BLOCKED", error.message, "error");
       setMessage($("#opMsg"), error.message, "error");
@@ -1018,6 +1093,7 @@
 
     $("#loginForm").addEventListener("submit", login);
     $("#registerForm").addEventListener("submit", register);
+    $("#resendVerificationBtn").addEventListener("click", resendCustomerVerification);
     $("#logoutBtn").addEventListener("click", logout);
     $("#gateBack").addEventListener("click", showPublic);
     $("#gateForm").addEventListener("submit", unlockEmployee);

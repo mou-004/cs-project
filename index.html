@@ -93,11 +93,11 @@
           <div class="access-copy">
             <div class="eyebrow">SECURE ACCESS</div>
             <h2>Enter your banking workspace</h2>
-            <p>Administrator and Employee accounts use fixed classroom credentials. Customers register through Firebase Email/Password, with a local fallback when Firebase is unavailable.</p>
+            <p>Administrator and Employee accounts use fixed classroom credentials. Customer accounts require fast Firebase email verification. Registration remains inactive until the verification link is opened.</p>
             <div class="access-points">
               <div><span>✓</span><p>Role-separated dashboards</p></div>
               <div><span>✓</span><p>Private customer operation keys</p></div>
-              <div><span>✓</span><p>Locked Employee access vault</p></div>
+              <div><span>✓</span><p>Verified Customer email required</p></div>
             </div>
           </div>
 
@@ -120,6 +120,10 @@
               </label>
               <button class="button button-primary full" type="submit">SIGN IN SECURELY</button>
               <p id="loginMsg" class="form-message" aria-live="polite"></p>
+              <div id="customerVerificationActions" class="verification-actions hidden">
+                <button id="resendVerificationBtn" class="button button-ghost full" type="button">RESEND VERIFICATION EMAIL</button>
+                <p class="verification-note">Use the Customer email and password entered above. Login stays blocked until Firebase confirms the email.</p>
+              </div>
             </form>
 
             <div id="customerRegister" class="register-panel hidden">
@@ -137,8 +141,9 @@
                     <button class="password-toggle" type="button" data-target="regPass">SHOW</button>
                   </span>
                 </label>
-                <button class="button button-outline full" type="submit">CREATE CUSTOMER ACCOUNT</button>
+                <button class="button button-outline full" type="submit">SEND VERIFICATION & CREATE ACCOUNT</button>
                 <p id="registerMsg" class="form-message" aria-live="polite"></p>
+                <p class="verification-note">The account becomes active only after the Firebase verification link is opened.</p>
               </form>
             </div>
           </div>
@@ -498,9 +503,6 @@
     </section>
   </main>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script src="ciphers.js"></script>
   <script src="app.js"></script>

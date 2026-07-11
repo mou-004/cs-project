@@ -1,12 +1,19 @@
-# Validation Plan
+# Tested Authentication Flow
 
-The package is checked for:
+The Firebase REST authentication module was tested with controlled Firebase responses.
 
-- JavaScript syntax
-- Required file references
-- Responsive navigation handlers
-- Customer Deposit, Withdrawal, and Transfer safety controls
-- Locked profile setup areas becoming hidden
-- Employee gate containing no algorithm, plaintext, or ciphertext output
-- Employee operations table containing no algorithm or customer secret fields
-- Firebase configuration and all three cipher algorithms included
+Passed:
+
+- Customer registration creates a Firebase account
+- Verification email request is sent
+- Unverified Customer login is blocked
+- Resend verification request works
+- Verified Customer login succeeds
+- Firebase requests stop after a 10-second timeout
+- No local Customer password fallback exists
+- `app.js`, `ciphers.js`, and `firebase-config.js` pass JavaScript syntax validation
+- The page no longer downloads the three Firebase compatibility SDK files
+
+Required Firebase Console setting:
+
+- Authentication > Sign-in method > Email/Password must be enabled
