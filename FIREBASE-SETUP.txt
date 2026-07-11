@@ -1,0 +1,27 @@
+FIREBASE SETUP
+
+Project configuration is already included in firebase-config.js.
+
+1. Open Firebase Console.
+2. Open project: csproject-24094
+3. Go to Authentication > Sign-in method.
+4. Enable Email/Password.
+5. Go to Authentication > Settings > Authorized domains.
+6. Add localhost if it is not already listed.
+7. Create a Firestore Database if you want customer profile documents.
+
+DEVELOPMENT FIRESTORE RULES
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow create, read, update: if request.auth != null
+                                  && request.auth.uid == userId;
+      allow delete: if false;
+    }
+  }
+}
+
+Customer banking balances and operation history are stored in browser localStorage
+for this front-end academic demonstration.

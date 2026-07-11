@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Professional role-based banking safety system using operation-specific classical cipher locks.">
+  <title>Sentinel Bank | Secure Operations</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Sentinel Bank home">
+      <span class="brand-mark">SB</span>
+      <span class="brand-copy">
+        <strong>SENTINEL BANK</strong>
+        <small>Secure Operations Division</small>
+      </span>
+    </a>
+
+    <nav id="publicNav" class="public-nav" aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#security">Security</a>
+      <a href="#login">Access</a>
+    </nav>
+
+    <div class="topbar-actions">
+      <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle theme">☾</button>
+      <button id="menuToggle" class="icon-button hamburger-button" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div id="publicArea">
+      <section id="home" class="public-section hero">
+        <div class="hero-copy">
+          <div class="eyebrow">ROLE-BASED BANKING PROTECTION</div>
+          <h1>PRIVATE LOCKS.<br><span>VERIFIED OPERATIONS.</span></h1>
+          <p>Customers secure deposits, withdrawals, and transfers with separate encrypted safety profiles. Staff access is controlled independently, and private operation keys are never displayed.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#login">ACCESS SYSTEM</a>
+            <a class="button button-outline" href="#security">VIEW SECURITY FLOW</a>
+          </div>
+          <div class="trust-row">
+            <div><strong>3</strong><span>Operation locks</span></div>
+            <div><strong>3</strong><span>Cipher algorithms</span></div>
+            <div><strong>3</strong><span>Role levels</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="vault-ring ring-one"></div>
+          <div class="vault-ring ring-two"></div>
+          <div class="vault-core">
+            <span>SECURE</span>
+            <strong>VAULT</strong>
+          </div>
+          <div class="signal signal-a"></div>
+          <div class="signal signal-b"></div>
+          <div class="signal signal-c"></div>
+        </div>
+      </section>
+
+      <section id="security" class="public-section security-section">
+        <div class="section-heading">
+          <div class="eyebrow">SECURITY WORKFLOW</div>
+          <h2>Encryption is part of the banking operation</h2>
+          <p>Each operation keeps its own locked safety profile. Once locked, setup information disappears until the correct private key decrypts it.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-number">01</span>
+            <h3>Create and preview</h3>
+            <p>Write private authorization text, select one algorithm, and review the ciphertext before locking.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">02</span>
+            <h3>Lock without clues</h3>
+            <p>After locking, the text, algorithm, and ciphertext vanish. The readable key is never stored.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-number">03</span>
+            <h3>Decrypt to execute</h3>
+            <p>The correct operation key reveals the decrypted text and allows the balance-changing operation.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="login" class="public-section access-section">
+        <div class="access-shell">
+          <div class="access-copy">
+            <div class="eyebrow">SECURE ACCESS</div>
+            <h2>Enter your banking workspace</h2>
+            <p>Administrator and Employee accounts use fixed classroom credentials. Customers register through Firebase Email/Password, with a local fallback when Firebase is unavailable.</p>
+            <div class="access-points">
+              <div><span>✓</span><p>Role-separated dashboards</p></div>
+              <div><span>✓</span><p>Private customer operation keys</p></div>
+              <div><span>✓</span><p>Locked Employee access vault</p></div>
+            </div>
+          </div>
+
+          <div class="auth-card">
+            <div class="role-tabs" role="tablist">
+              <button class="role-tab active" data-role="admin" type="button">Admin</button>
+              <button class="role-tab" data-role="employee" type="button">Employee</button>
+              <button class="role-tab" data-role="customer" type="button">Customer</button>
+            </div>
+
+            <form id="loginForm" novalidate>
+              <label>Email address
+                <input id="loginEmail" type="email" autocomplete="email" required>
+              </label>
+              <label>Password
+                <span class="password-field">
+                  <input id="loginPass" type="password" autocomplete="current-password" required>
+                  <button class="password-toggle" type="button" data-target="loginPass">SHOW</button>
+                </span>
+              </label>
+              <button class="button button-primary full" type="submit">SIGN IN SECURELY</button>
+              <p id="loginMsg" class="form-message" aria-live="polite"></p>
+            </form>
+
+            <div id="customerRegister" class="register-panel hidden">
+              <div class="form-divider"><span>CUSTOMER REGISTRATION</span></div>
+              <form id="registerForm" novalidate>
+                <label>Full name
+                  <input id="regName" type="text" autocomplete="name" required>
+                </label>
+                <label>Email address
+                  <input id="regEmail" type="email" autocomplete="email" required>
+                </label>
+                <label>Password
+                  <span class="password-field">
+                    <input id="regPass" type="password" minlength="6" autocomplete="new-password" required>
+                    <button class="password-toggle" type="button" data-target="regPass">SHOW</button>
+                  </span>
+                </label>
+                <button class="button button-outline full" type="submit">CREATE CUSTOMER ACCOUNT</button>
+                <p id="registerMsg" class="form-message" aria-live="polite"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="brand footer-brand">
+          <span class="brand-mark">SB</span>
+          <span class="brand-copy"><strong>SENTINEL BANK</strong><small>Academic security project</small></span>
+        </div>
+        <p>Classical ciphers are used here to demonstrate encryption, decryption, access control, and protected banking operations.</p>
+      </footer>
+    </div>
+
+    <section id="employeeGate" class="gate-section hidden">
+      <div class="gate-shell">
+        <div class="gate-copy">
+          <div class="eyebrow">EMPLOYEE ACCESS VAULT</div>
+          <h2>Private decryption required</h2>
+          <p>The Administrator has locked the Employee Dashboard. No authorization text, algorithm, or ciphertext is shown. Enter the private vault key to continue.</p>
+          <div class="privacy-note">
+            <span>NO SECURITY CLUES DISPLAYED</span>
+            <p>Three failed attempts lock access until the Administrator resets the vault.</p>
+          </div>
+        </div>
+
+        <div class="auth-card">
+          <form id="gateForm" novalidate>
+            <label>Private Employee vault key
+              <span class="password-field">
+                <input id="gateSecret" type="password" autocomplete="off" required>
+                <button class="password-toggle" type="button" data-target="gateSecret">SHOW</button>
+              </span>
+            </label>
+            <button id="gateBtn" class="button button-primary full" type="submit">DECRYPT & UNLOCK</button>
+            <button id="gateBack" class="button button-ghost full spaced-button" type="button">RETURN TO LOGIN</button>
+            <p id="gateMsg" class="form-message" aria-live="polite"></p>
+            <div id="gateState" class="state-card"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="dashboard hidden">
+      <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-profile">
+          <div id="avatar" class="avatar">U</div>
+          <div>
+            <strong id="profileName">User</strong>
+            <small id="profileRole">Role</small>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Dashboard navigation">
+          <button class="sidebar-link admin-only" data-panel="adminPanel" type="button"><span>▣</span> Overview</button>
+          <button class="sidebar-link admin-only" data-panel="employeeSecurityPanel" type="button"><span>⚿</span> Employee Vault</button>
+          <button class="sidebar-link employee-only" data-panel="employeePanel" type="button"><span>▤</span> Operations</button>
+          <button class="sidebar-link customer-only" data-panel="customerPanel" type="button"><span>◈</span> Customer Banking</button>
+        </nav>
+
+        <button id="logoutBtn" class="button button-danger full" type="button">LOG OUT</button>
+      </aside>
+
+      <div class="dashboard-main">
+        <div class="dashboard-heading">
+          <button id="dashboardMenuToggle" class="icon-button dashboard-menu-button" type="button" aria-label="Toggle dashboard menu">☰</button>
+          <div>
+            <small>SECURE SESSION</small>
+            <h2 id="dashTitle">Dashboard</h2>
+          </div>
+          <div class="session-badge">ROLE VERIFIED</div>
+        </div>
+
+        <div id="adminPanel" class="dashboard-panel">
+          <div class="metric-grid">
+            <article class="metric-card"><span>COMPLETED OPERATIONS</span><strong id="adminTotal">0</strong><small>All customer activity</small></article>
+            <article class="metric-card"><span>TOTAL VOLUME</span><strong id="adminVolume">$0.00</strong><small>Completed value</small></article>
+            <article class="metric-card"><span>LOCKED PROFILES</span><strong id="adminSafetyCount">0</strong><small>Customer safety locks</small></article>
+            <article class="metric-card"><span>SYSTEM STATUS</span><strong>ONLINE</strong><small>Role controls active</small></article>
+          </div>
+
+          <article class="panel-card">
+            <div class="card-title-row">
+              <div><span>ADMINISTRATIVE LEDGER</span><h3>Completed customer operations</h3></div>
+              <button id="adminRefresh" class="small-button" type="button">REFRESH</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Reference</th><th>Customer</th><th>Operation</th><th>Amount</th><th>Balance</th><th>Security</th><th>Completed</th></tr></thead>
+                <tbody id="adminOps"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <div id="employeeSecurityPanel" class="dashboard-panel">
+          <div class="metric-grid">
+            <article class="metric-card"><span>VAULT STATUS</span><strong id="employeeVaultStatus">NOT SET</strong><small>Encrypted access control</small></article>
+            <article class="metric-card"><span>FAILED ATTEMPTS</span><strong id="employeeAttemptMetric">0 / 3</strong><small>Automatic lock protection</small></article>
+            <article class="metric-card"><span>EMPLOYEE ACCESS</span><strong id="employeeAccessMetric">DISABLED</strong><small>Administrator controlled</small></article>
+            <article class="metric-card"><span>SECURITY MODE</span><strong>PRIVATE</strong><small>No clues shown to staff</small></article>
+          </div>
+
+          <div class="content-grid">
+            <article class="panel-card">
+              <div class="card-title-row">
+                <div><span>EMPLOYEE ACCESS VAULT</span><h3>Configure encrypted access</h3></div>
+                <span id="challengeBadge" class="status-badge">NOT SET</span>
+              </div>
+
+              <div id="challengeSetupArea">
+                <form id="challengeForm" novalidate>
+                  <label>Private authorization text
+                    <textarea id="challengeText" rows="4" required></textarea>
+                  </label>
+                  <label>Encryption algorithm
+                    <select id="challengeAlg">
+                      <option value="vigenere">Vigenère</option>
+                      <option value="playfair">Playfair</option>
+                      <option value="railfence">Rail Fence</option>
+                    </select>
+                  </label>
+                  <div id="challengeKeyBox">
+                    <label>Private keyword
+                      <span class="password-field">
+                        <input id="challengeKey" type="password" autocomplete="off">
+                        <button class="password-toggle" type="button" data-target="challengeKey">SHOW</button>
+                      </span>
+                    </label>
+                  </div>
+                  <div id="challengeRailBox" class="hidden">
+                    <label>Private rail count
+                      <input id="challengeRails" type="number" min="2" max="20" value="3">
+                    </label>
+                  </div>
+                  <div class="action-grid">
+                    <button id="challengePreviewBtn" class="button button-outline" type="button">ENCRYPT PREVIEW</button>
+                    <button id="challengeLockBtn" class="button button-primary" type="button" disabled>LOCK EMPLOYEE VAULT</button>
+                  </div>
+                  <p id="challengeMsg" class="form-message" aria-live="polite"></p>
+                </form>
+
+                <div class="cipher-preview">
+                  <span>CIPHERTEXT PREVIEW</span>
+                  <pre id="challengeCipherPreview">Create an encrypted preview before locking.</pre>
+                </div>
+              </div>
+
+              <div id="challengeLockedArea" class="hidden">
+                <div class="vault-locked-card">
+                  <span class="lock-icon">◆</span>
+                  <div><strong>EMPLOYEE VAULT LOCKED</strong><p>Authorization text, algorithm, and ciphertext are hidden.</p></div>
+                </div>
+                <label>Private vault key required to edit
+                  <span class="password-field">
+                    <input id="challengeUnlockSecret" type="password" autocomplete="off">
+                    <button class="password-toggle" type="button" data-target="challengeUnlockSecret">SHOW</button>
+                  </span>
+                </label>
+                <button id="challengeUnlockBtn" class="button button-ghost full" type="button">UNLOCK TO VIEW OR EDIT</button>
+                <p id="challengeLockedMsg" class="form-message" aria-live="polite"></p>
+              </div>
+            </article>
+
+            <article class="panel-card">
+              <span>ACCESS MANAGEMENT</span>
+              <h3>Employee vault controls</h3>
+              <div id="challengeStatus" class="state-card"></div>
+              <div class="stacked-actions">
+                <button id="toggleEmployee" class="button button-outline full" type="button">ENABLE EMPLOYEE ACCESS</button>
+                <button id="resetEmployeeLock" class="button button-ghost full" type="button">RESET FAILED ATTEMPTS</button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div id="employeePanel" class="dashboard-panel">
+          <div class="metric-grid">
+            <article class="metric-card"><span>COMPLETED OPERATIONS</span><strong id="employeeTotal">0</strong><small>Verified customer activity</small></article>
+            <article class="metric-card"><span>PROCESSED VOLUME</span><strong id="employeeVolume">$0.00</strong><small>Total completed value</small></article>
+            <article class="metric-card"><span>SECURITY STATUS</span><strong>VERIFIED</strong><small>Vault access passed</small></article>
+            <article class="metric-card"><span>KEY VISIBILITY</span><strong>HIDDEN</strong><small>Customer secrets protected</small></article>
+          </div>
+
+          <article class="panel-card">
+            <div class="card-title-row">
+              <div><span>EMPLOYEE OPERATIONS</span><h3>Verified banking activity</h3></div>
+              <button id="employeeRefresh" class="small-button" type="button">REFRESH</button>
+            </div>
+            <p class="muted">Customer text, algorithm selection, ciphertext, and keys are not available in this workspace.</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Reference</th><th>Customer</th><th>Operation</th><th>Amount</th><th>Balance</th><th>Security</th><th>Completed</th></tr></thead>
+                <tbody id="employeeOps"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <div id="customerPanel" class="dashboard-panel">
+          <article class="account-card">
+            <div>
+              <small>SENTINEL BANK / CUSTOMER ACCOUNT</small>
+              <h3 id="custName">CUSTOMER</h3>
+            </div>
+            <div id="custAccount" class="account-number"></div>
+            <div class="account-summary">
+              <div><small>CURRENT BALANCE</small><strong id="custBalance">$200.00</strong></div>
+              <div><small>ACCOUNT STATUS</small><strong>ACTIVE</strong></div>
+            </div>
+          </article>
+
+          <article class="panel-card customer-intro">
+            <span>OPERATION-SPECIFIC SAFETY</span>
+            <h3>Separate private lock for every banking action</h3>
+            <p class="muted">Create a Deposit, Withdrawal, and Transfer lock independently. Once a profile is locked, every setup detail disappears until the correct private key decrypts it.</p>
+          </article>
+
+          <div class="profile-grid">
+            <!-- Deposit -->
+            <article class="panel-card safety-profile" data-operation="deposit">
+              <div class="card-title-row">
+                <div><span>DEPOSIT SAFETY</span><h3>Deposit Lock</h3></div>
+                <span id="depositBadge" class="status-badge">NOT SET</span>
+              </div>
+              <div id="depositSetupArea">
+                <label>Private authorization text<textarea id="depositText" rows="3" required></textarea></label>
+                <label>Encryption algorithm<select id="depositAlg"><option value="vigenere">Vigenère</option><option value="playfair">Playfair</option><option value="railfence">Rail Fence</option></select></label>
+                <div id="depositKeyBox"><label>Private keyword<input id="depositKey" type="password" autocomplete="off"></label></div>
+                <div id="depositRailBox" class="hidden"><label>Private rail count<input id="depositRails" type="number" min="2" max="20" value="3"></label></div>
+                <div class="action-grid">
+                  <button class="button button-outline preview-safety-btn" data-operation="deposit" type="button">ENCRYPT PREVIEW</button>
+                  <button id="depositLockBtn" class="button button-primary lock-safety-btn" data-operation="deposit" type="button" disabled>LOCK DEPOSIT SAFETY</button>
+                </div>
+                <p id="depositSafetyMsg" class="form-message"></p>
+                <div class="cipher-preview"><span>CIPHERTEXT PREVIEW</span><pre id="depositCipher">Create an encrypted preview before locking.</pre></div>
+              </div>
+              <div id="depositLockedArea" class="hidden">
+                <div class="vault-locked-card"><span class="lock-icon">◆</span><div><strong>DEPOSIT SAFETY LOCKED</strong><p>Text, algorithm, and ciphertext are hidden.</p></div></div>
+                <label>Private Deposit key<input id="depositUnlockSecret" type="password" autocomplete="off"></label>
+                <button class="button button-ghost full unlock-edit-btn" data-operation="deposit" type="button">UNLOCK TO VIEW OR EDIT</button>
+                <p id="depositLockedMsg" class="form-message"></p>
+              </div>
+            </article>
+
+            <!-- Withdrawal -->
+            <article class="panel-card safety-profile" data-operation="withdrawal">
+              <div class="card-title-row">
+                <div><span>WITHDRAWAL SAFETY</span><h3>Withdrawal Lock</h3></div>
+                <span id="withdrawalBadge" class="status-badge">NOT SET</span>
+              </div>
+              <div id="withdrawalSetupArea">
+                <label>Private authorization text<textarea id="withdrawalText" rows="3" required></textarea></label>
+                <label>Encryption algorithm<select id="withdrawalAlg"><option value="vigenere">Vigenère</option><option value="playfair">Playfair</option><option value="railfence">Rail Fence</option></select></label>
+                <div id="withdrawalKeyBox"><label>Private keyword<input id="withdrawalKey" type="password" autocomplete="off"></label></div>
+                <div id="withdrawalRailBox" class="hidden"><label>Private rail count<input id="withdrawalRails" type="number" min="2" max="20" value="3"></label></div>
+                <div class="action-grid">
+                  <button class="button button-outline preview-safety-btn" data-operation="withdrawal" type="button">ENCRYPT PREVIEW</button>
+                  <button id="withdrawalLockBtn" class="button button-primary lock-safety-btn" data-operation="withdrawal" type="button" disabled>LOCK WITHDRAWAL SAFETY</button>
+                </div>
+                <p id="withdrawalSafetyMsg" class="form-message"></p>
+                <div class="cipher-preview"><span>CIPHERTEXT PREVIEW</span><pre id="withdrawalCipher">Create an encrypted preview before locking.</pre></div>
+              </div>
+              <div id="withdrawalLockedArea" class="hidden">
+                <div class="vault-locked-card"><span class="lock-icon">◆</span><div><strong>WITHDRAWAL SAFETY LOCKED</strong><p>Text, algorithm, and ciphertext are hidden.</p></div></div>
+                <label>Private Withdrawal key<input id="withdrawalUnlockSecret" type="password" autocomplete="off"></label>
+                <button class="button button-ghost full unlock-edit-btn" data-operation="withdrawal" type="button">UNLOCK TO VIEW OR EDIT</button>
+                <p id="withdrawalLockedMsg" class="form-message"></p>
+              </div>
+            </article>
+
+            <!-- Transfer -->
+            <article class="panel-card safety-profile" data-operation="transfer">
+              <div class="card-title-row">
+                <div><span>TRANSFER SAFETY</span><h3>Transfer Lock</h3></div>
+                <span id="transferBadge" class="status-badge">NOT SET</span>
+              </div>
+              <div id="transferSetupArea">
+                <label>Private authorization text<textarea id="transferText" rows="3" required></textarea></label>
+                <label>Encryption algorithm<select id="transferAlg"><option value="vigenere">Vigenère</option><option value="playfair">Playfair</option><option value="railfence">Rail Fence</option></select></label>
+                <div id="transferKeyBox"><label>Private keyword<input id="transferKey" type="password" autocomplete="off"></label></div>
+                <div id="transferRailBox" class="hidden"><label>Private rail count<input id="transferRails" type="number" min="2" max="20" value="3"></label></div>
+                <div class="action-grid">
+                  <button class="button button-outline preview-safety-btn" data-operation="transfer" type="button">ENCRYPT PREVIEW</button>
+                  <button id="transferLockBtn" class="button button-primary lock-safety-btn" data-operation="transfer" type="button" disabled>LOCK TRANSFER SAFETY</button>
+                </div>
+                <p id="transferSafetyMsg" class="form-message"></p>
+                <div class="cipher-preview"><span>CIPHERTEXT PREVIEW</span><pre id="transferCipher">Create an encrypted preview before locking.</pre></div>
+              </div>
+              <div id="transferLockedArea" class="hidden">
+                <div class="vault-locked-card"><span class="lock-icon">◆</span><div><strong>TRANSFER SAFETY LOCKED</strong><p>Text, algorithm, and ciphertext are hidden.</p></div></div>
+                <label>Private Transfer key<input id="transferUnlockSecret" type="password" autocomplete="off"></label>
+                <button class="button button-ghost full unlock-edit-btn" data-operation="transfer" type="button">UNLOCK TO VIEW OR EDIT</button>
+                <p id="transferLockedMsg" class="form-message"></p>
+              </div>
+            </article>
+          </div>
+
+          <div class="content-grid operation-grid">
+            <article class="panel-card">
+              <span>EXECUTE BANKING OPERATION</span>
+              <h3>Private decryption required</h3>
+              <p class="muted">Select an operation and enter its private key. No algorithm or ciphertext clue is displayed.</p>
+              <form id="operationForm" novalidate>
+                <label>Operation
+                  <select id="opType"><option value="deposit">Deposit</option><option value="withdrawal">Withdrawal</option><option value="transfer">Transfer</option></select>
+                </label>
+                <div id="executionProfileState" class="state-card"></div>
+                <label>Amount<input id="opAmount" type="number" min="1" step="0.01" required></label>
+                <label id="recipientLabel" class="hidden">Recipient email or account<input id="recipient" type="text"></label>
+                <label>Private operation key
+                  <span class="password-field">
+                    <input id="execSecret" type="password" autocomplete="off" required>
+                    <button class="password-toggle" type="button" data-target="execSecret">SHOW</button>
+                  </span>
+                </label>
+                <button id="executeBtn" class="button button-primary full" type="submit">DECRYPT & EXECUTE</button>
+                <p id="opMsg" class="form-message"></p>
+              </form>
+              <div id="decryptionResultBox" class="cipher-preview hidden">
+                <span>SUCCESSFULLY DECRYPTED SAFETY TEXT</span>
+                <pre id="decryptedOut"></pre>
+              </div>
+            </article>
+
+            <article class="panel-card">
+              <span>OPERATION RESULT</span>
+              <h3>Balance update</h3>
+              <div id="operationState" class="state-card"><strong>WAITING</strong><p>Choose an operation and enter its private key.</p></div>
+              <div id="balanceEquation" class="balance-equation hidden">
+                <div><span>PREVIOUS BALANCE</span><strong id="prevBalance">$0.00</strong></div>
+                <div id="mathSymbol" class="math-symbol">−</div>
+                <div><span>OPERATION AMOUNT</span><strong id="opAmountShow">$0.00</strong></div>
+                <div class="math-symbol">=</div>
+                <div><span>CURRENT BALANCE</span><strong id="newBalance">$0.00</strong></div>
+              </div>
+            </article>
+          </div>
+
+          <article class="panel-card history-card">
+            <div class="card-title-row">
+              <div><span>ACCOUNT HISTORY</span><h3>Completed operations</h3></div>
+              <button id="customerRefresh" class="small-button" type="button">REFRESH</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Reference</th><th>Operation</th><th>Amount</th><th>Balance</th><th>Security</th><th>Completed</th></tr></thead>
+                <tbody id="customerOps"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="ciphers.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
